@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 50% 30%, #1a237e, #0d1642, #000000);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* 3D floating shapes in background */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5),
+                        inset 10px 10px 20px rgba(255,255,255,0.1);
+        }
+
+        .shape:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #3949ab, #1a237e);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #5c6bc0, #283593);
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #7986cb, #3f51b5);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Login container */
+        .login-box {
+            position: relative;
+            background: linear-gradient(145deg, #1a237e, #0d1642);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 
+                20px 20px 60px rgba(0,0,0,0.7),
+                -5px -5px 20px rgba(57, 73, 171, 0.3),
+                inset 1px 1px 1px rgba(255,255,255,0.1);
+            width: 360px;
+            z-index: 10;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #3949ab, #1a237e, #5c6bc0);
+            border-radius: 26px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        h2 {
+            color: #c5cae9;
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #9fa8da;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #0d1642, #1a237e);
+            color: #e8eaf6;
+            font-size: 15px;
+            outline: none;
+            box-shadow: 
+                inset 4px 4px 8px rgba(0,0,0,0.5),
+                inset -4px -4px 8px rgba(57, 73, 171, 0.2),
+                2px 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #5c6bc0;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            box-shadow: 
+                inset 6px 6px 12px rgba(0,0,0,0.6),
+                inset -6px -6px 12px rgba(57, 73, 171, 0.3),
+                0 0 15px rgba(92, 107, 192, 0.4);
+        }
+
+        .enter-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #3949ab, #283593);
+            color: #e8eaf6;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 
+                6px 6px 12px rgba(0,0,0,0.5),
+                -3px -3px 8px rgba(92, 107, 192, 0.3),
+                inset 1px 1px 2px rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+        }
+
+        .enter-btn:hover {
+            background: linear-gradient(145deg, #5c6bc0, #3949ab);
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 16px rgba(0,0,0,0.5),
+                -3px -3px 8px rgba(92, 107, 192, 0.4),
+                inset 1px 1px 2px rgba(255,255,255,0.2);
+        }
+
+        .enter-btn:active {
+            transform: translateY(1px);
+            box-shadow: 
+                3px 3px 8px rgba(0,0,0,0.5),
+                -2px -2px 6px rgba(92, 107, 192, 0.3),
+                inset 2px 2px 4px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D background shapes -->
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+
+    <!-- Login Form -->
+    <div class="login-box">
+        <h2>Welcome Back</h2>
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button class="enter-btn" type="submit">Enter</button>
+    </div>
+</body>
+</html>
