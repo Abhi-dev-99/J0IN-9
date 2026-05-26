@@ -77,9 +77,9 @@ export default function Login() {
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input
-              type="email"
+              type="text"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter your email (e.g. test@test.com)"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
