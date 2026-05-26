@@ -12,7 +12,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://j0-in-9-2hft.vercel.app/'],
+  credentials: true
+}));
 app.use(express.json());
 
 // Routes
@@ -34,10 +37,10 @@ app.get('/health', (req, res) => {
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/3d-login-db')
   .then(async () => {
     console.log('Connected to MongoDB');
-    
+
     // Seed cars data if empty
     await seedCars();
-    
+
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
