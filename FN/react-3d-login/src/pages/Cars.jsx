@@ -1,5 +1,7 @@
-import { useState, useMemo } from 'react'
-import { cars, categories } from '../data/cars'
+import { useState, useMemo, useEffect } from 'react'
+import { API_BASE_URL } from '../config'
+
+const API_URL = `${API_BASE_URL}/cars`
 
 function CarCard({ car, index }) {
   const [hovered, setHovered] = useState(false)
@@ -50,27 +52,56 @@ export default function Cars() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('name')
+  const [cars, setCars] = useState([])
+  const [categories, setCategories] = useState(['All'])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const filteredCars = useMemo(() => {
-    let result = cars.filter(car => {
-      const matchesCategory = activeCategory === 'All' || car.category === activeCategory
-      const matchesSearch = car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        car.brand.toLowerCase().includes(searchQuery.toLowerCase())
-      return matchesCategory && matchesSearch
-    })
+  // Fetch cars from backend
+  useEffect(() => {
+    async function fetchCars() {
+      try {
+        setLoading(true)
+        const params = new URLSearchParams()
+        if (activeCategory !== 'All') params.append('category', activeCategory)
+        if (searchQuery) params.append('search', searchQuery)
+        if (sortBy) params.append('sortBy', sortBy)
 
-    if (sortBy === 'price-asc') {
-      result = [...result].sort((a, b) => a.priceNum - b.priceNum)
-    } else if (sortBy === 'price-desc') {
-      result = [...result].sort((a, b) => b.priceNum - a.priceNum)
-    } else if (sortBy === 'hp') {
-      result = [...result].sort((a, b) => b.horsepower - a.horsepower)
-    } else {
-      result = [...result].sort((a, b) => a.name.localeCompare(b.name))
+        const response = await fetch(`${API_URL}?${params.toString()}`)
+        const data = await response.json()
+
+        if (response.ok) {
+          setCars(data.cars)
+          setError('')
+        } else {
+          setError(data.message || 'Failed to fetch cars')
+        }
+      } catch (err) {
+        setError('Failed to connect to server')
+      } finally {
+        setLoading(false)
+      }
     }
 
-    return result
+    fetchCars()
   }, [activeCategory, searchQuery, sortBy])
+
+  // Fetch categories from backend
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await fetch(`${API_URL}/categories`)
+        const data = await response.json()
+        if (response.ok) {
+          setCategories(data.categories)
+        }
+      } catch (err) {
+        console.error('Failed to fetch categories:', err)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   return (
     <div className="cars-page">
@@ -136,14 +167,20 @@ export default function Cars() {
         ))}
       </div>
 
-      {/* Car Grid */}
-      <div className="cars-grid">
-        {filteredCars.map((car, i) => (
-          <CarCard key={car.id} car={car} index={i} />
-        ))}
-      </div>
+      {/* Loading / Error */}
+      {loading && <div className="loading-message">Loading cars...</div>}
+      {error && <div className="error-message">{error}</div>}
 
-      {filteredCars.length === 0 && (
+      {/* Car Grid */}
+      {!loading && !error && (
+        <div className="cars-grid">
+          {cars.map((car, i) => (
+            <CarCard key={car.id} car={car} index={i} />
+          ))}
+        </div>
+      )}
+
+      {!loading && !error && cars.length === 0 && (
         <div className="no-results">
           <h3>No cars found</h3>
           <p>Try adjusting your search or filters</p>

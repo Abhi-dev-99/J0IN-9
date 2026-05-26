@@ -1,22 +1,85 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { API_BASE_URL } from '../config'
+
+const API_URL = `${API_BASE_URL}/auth`
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isRegister, setIsRegister] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (email.trim() && password.trim()) {
-      navigate('/cars')
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const endpoint = isRegister ? `${API_URL}/register` : `${API_URL}/login`
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessageType('success')
+        setMessage(data.message)
+
+        // Save token to localStorage
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+        }
+
+        // Navigate to cars page after login
+        if (!isRegister) {
+          setTimeout(() => {
+            navigate('/cars')
+          }, 800)
+        } else {
+          // After register, switch to login mode
+          setTimeout(() => {
+            setIsRegister(false)
+            setMessage('')
+            setPassword('')
+          }, 800)
+        }
+      } else {
+        setMessageType('error')
+        setMessage(data.message || 'Something went wrong')
+      }
+    } catch (err) {
+      setMessageType('error')
+      setMessage('Failed to connect to server. Is the backend running?')
+    } finally {
+      setLoading(false)
     }
+  }
+
+  const toggleMode = () => {
+    setIsRegister(!isRegister)
+    setMessage('')
   }
 
   return (
     <div className="overlay">
       <div className="login-box">
-        <h2>Welcome Back</h2>
+        <h2>{isRegister ? 'Create Account' : 'Welcome Back'}</h2>
+
+        {message && (
+          <div className={`message ${messageType}`}>
+            {message}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email</label>
@@ -27,6 +90,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
           <div className="input-group">
@@ -38,12 +102,21 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
+              minLength={6}
             />
           </div>
-          <button className="enter-btn" type="submit">
-            Enter
+          <button className="enter-btn" type="submit" disabled={loading}>
+            {loading ? 'Please wait...' : (isRegister ? 'Sign Up' : 'Enter')}
           </button>
         </form>
+
+        <p className="toggle-text">
+          {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
+          <button type="button" className="toggle-btn" onClick={toggleMode}>
+            {isRegister ? 'Login' : 'Sign Up'}
+          </button>
+        </p>
       </div>
     </div>
   )

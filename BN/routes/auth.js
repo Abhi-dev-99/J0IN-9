@@ -26,13 +26,16 @@ router.post('/register', async (req, res) => {
     }
 
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists with this email' });
     }
 
-    // Create user
-    const user = new User({ email, password });
+    // Create user (password is hashed automatically by the pre-save hook)
+    const user = new User({
+      email: email.toLowerCase().trim(),
+      password
+    });
     await user.save();
 
     const token = generateToken(user._id);
@@ -62,7 +65,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Find user
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }

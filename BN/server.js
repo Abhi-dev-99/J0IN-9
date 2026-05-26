@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
+const carRoutes = require('./routes/cars');
+const seedCars = require('./seed/cars');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,16 +16,26 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/cars', carRoutes);
 
 // Health check
 app.get('/', (req, res) => {
   res.json({ message: '3D Login Backend API is running!' });
 });
 
+// Health check for Railway
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/3d-login-db')
-  .then(() => {
+  .then(async () => {
     console.log('Connected to MongoDB');
+    
+    // Seed cars data if empty
+    await seedCars();
+    
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
