@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { API_BASE_URL } from '../config'
 
-const API_URL = `${API_BASE_URL}/auth`
+const AUTH_URL = `${API_BASE_URL}/auth`
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -19,12 +19,10 @@ export default function Login() {
     setMessage('')
 
     try {
-      const endpoint = isRegister ? `${API_URL}/register` : `${API_URL}/login`
+      const endpoint = isRegister ? `${AUTH_URL}/register` : `${AUTH_URL}/login`
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       })
 
@@ -34,18 +32,13 @@ export default function Login() {
         setMessageType('success')
         setMessage(data.message)
 
-        // Save token to localStorage
         if (data.token) {
           localStorage.setItem('token', data.token)
         }
 
-        // Navigate to cars page after login
         if (!isRegister) {
-          setTimeout(() => {
-            navigate('/cars')
-          }, 800)
+          setTimeout(() => navigate('/cars'), 800)
         } else {
-          // After register, switch to login mode
           setTimeout(() => {
             setIsRegister(false)
             setMessage('')

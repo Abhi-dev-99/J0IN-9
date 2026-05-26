@@ -1,15 +1,7 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const supabase = require('../lib/supabase');
 
 const router = express.Router();
-
-// Generate JWT
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'your-secret-key', {
-    expiresIn: '7d'
-  });
-};
 
 // Register
 router.post('/register', async (req, res) => {
@@ -25,27 +17,35 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Password must be at least 6 characters' });
     }
 
-    // Check if user exists
-    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email' });
+    // Create user in Supabase Auth
+    const { data, error } = await supabase.auth.admin.createUser({
+      email: email.toLowerCase().trim(),
+      password,
+      email_confirm: true
+    });
+
+    if (error) {
+      console.error('Supabase register error:', error);
+      return res.status(400).json({ message: error.message || 'Registration failed' });
     }
 
-    // Create user (password is hashed automatically by the pre-save hook)
-    const user = new User({
+    // Sign in to get token
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email: email.toLowerCase().trim(),
       password
     });
-    await user.save();
 
-    const token = generateToken(user._id);
+    if (signInError) {
+      console.error('Supabase signin error:', signInError);
+      return res.status(400).json({ message: signInError.message || 'Sign in failed after registration' });
+    }
 
     res.status(201).json({
       message: 'User registered successfully',
-      token,
+      token: signInData.session.access_token,
       user: {
-        id: user._id,
-        email: user.email
+        id: data.user.id,
+        email: data.user.email
       }
     });
   } catch (err) {
@@ -64,26 +64,23 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    // Find user
-    const user = await User.findOne({ email: email.toLowerCase().trim() });
-    if (!user) {
+    // Sign in with Supabase Auth
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.toLowerCase().trim(),
+      password
+    });
+
+    if (error) {
+      console.error('Supabase login error:', error);
       return res.status(400).json({ message: 'Invalid email or password' });
     }
-
-    // Check password
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    const token = generateToken(user._id);
 
     res.json({
       message: 'Login successful',
-      token,
+      token: data.session.access_token,
       user: {
-        id: user._id,
-        email: user.email
+        id: data.user.id,
+        email: data.user.email
       }
     });
   } catch (err) {
@@ -100,15 +97,21 @@ router.get('/me', async (req, res) => {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    const user = await User.findById(decoded.userId).select('-password');
+    // Verify token with Supabase
+    const { data, error } = await supabase.auth.getUser(token);
     
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    if (error || !data.user) {
+      return res.status(401).json({ message: 'Invalid token' });
     }
 
-    res.json({ user });
+    res.json({
+      user: {
+        id: data.user.id,
+        email: data.user.email
+      }
+    });
   } catch (err) {
+    console.error('Me error:', err);
     res.status(401).json({ message: 'Invalid token' });
   }
 });

@@ -1,20 +1,26 @@
 import { useState, useMemo, useEffect } from 'react'
 import { API_BASE_URL } from '../config'
 
-const API_URL = `${API_BASE_URL}/cars`
+const CARS_API = `${API_BASE_URL}/cars`
+
+function getCarImageUrl(car) {
+  const keyword = encodeURIComponent(car.brand)
+  return `https://loremflickr.com/800/500/${keyword}?lock=${car.id}`
+}
 
 function CarCard({ car, index }) {
   const [hovered, setHovered] = useState(false)
+  const imgSrc = getCarImageUrl(car)
 
   return (
     <div
       className="car-card"
-      style={{ animationDelay: `${index * 0.05}s` }}
+      style={{ animationDelay: `${index * 0.03}s` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div className={`car-image-wrapper ${hovered ? 'hovered' : ''}`}>
-        <img src={car.image} alt={car.name} loading="lazy" />
+        <img src={imgSrc} alt={car.name} loading="lazy" />
         <div className="car-image-overlay" />
         <div className="car-price-badge">{car.price}</div>
       </div>
@@ -57,9 +63,8 @@ export default function Cars() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // Fetch cars from backend
   useEffect(() => {
-    async function fetchCars() {
+    async function fetchData() {
       try {
         setLoading(true)
         const params = new URLSearchParams()
@@ -67,41 +72,26 @@ export default function Cars() {
         if (searchQuery) params.append('search', searchQuery)
         if (sortBy) params.append('sortBy', sortBy)
 
-        const response = await fetch(`${API_URL}?${params.toString()}`)
-        const data = await response.json()
+        const [carsRes, catsRes] = await Promise.all([
+          fetch(`${CARS_API}?${params.toString()}`),
+          fetch(`${CARS_API}/categories`)
+        ])
 
-        if (response.ok) {
-          setCars(data.cars)
-          setError('')
-        } else {
-          setError(data.message || 'Failed to fetch cars')
-        }
+        const carsData = await carsRes.json()
+        const catsData = await catsRes.json()
+
+        if (carsRes.ok) setCars(carsData.cars)
+        if (catsRes.ok) setCategories(catsData.categories)
+        setError('')
       } catch (err) {
-        setError('Failed to connect to server')
+        setError('Failed to load cars from server')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchCars()
+    fetchData()
   }, [activeCategory, searchQuery, sortBy])
-
-  // Fetch categories from backend
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const response = await fetch(`${API_URL}/categories`)
-        const data = await response.json()
-        if (response.ok) {
-          setCategories(data.categories)
-        }
-      } catch (err) {
-        console.error('Failed to fetch categories:', err)
-      }
-    }
-
-    fetchCategories()
-  }, [])
 
   return (
     <div className="cars-page">
@@ -118,7 +108,7 @@ export default function Cars() {
               <span className="hero-stat-label">Cars Listed</span>
             </div>
             <div className="hero-stat">
-              <span className="hero-stat-num">{categories.length - 1}</span>
+              <span className="hero-stat-num">{Math.max(0, categories.length - 1)}</span>
               <span className="hero-stat-label">Categories</span>
             </div>
             <div className="hero-stat">
@@ -175,7 +165,7 @@ export default function Cars() {
       {!loading && !error && (
         <div className="cars-grid">
           {cars.map((car, i) => (
-            <CarCard key={car.id} car={car} index={i} />
+            <CarCard key={car.id || car._id} car={car} index={i} />
           ))}
         </div>
       )}

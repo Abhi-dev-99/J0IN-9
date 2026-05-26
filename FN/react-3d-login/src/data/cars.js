@@ -1,214 +1,109 @@
 export const cars = [
-  {
-    id: 1, name: "Bugatti Chiron Super Sport", brand: "Bugatti", category: "Hypercar",
-    price: "$3,825,000", priceNum: 3825000, engine: "8.0L W16 Quad-Turbo", horsepower: 1578,
-    topSpeed: "273 mph", acceleration: "2.4s 0-60",
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
-    description: "The ultimate expression of automotive excellence, featuring a quad-turbocharged W16 engine delivering breathtaking performance."
-  },
-  {
-    id: 2, name: "Lamborghini Revuelto", brand: "Lamborghini", category: "Supercar",
-    price: "$608,358", priceNum: 608358, engine: "6.5L V12 Hybrid", horsepower: 1001,
-    topSpeed: "217 mph", acceleration: "2.5s 0-60",
-    image: "https://images.unsplash.com/photo-1542362567-b07e54358753?w=800&q=80",
-    description: "Lamborghini's first V12 hybrid supercar, combining raw V12 power with electric motors for unprecedented performance."
-  },
-  {
-    id: 3, name: "Ferrari SF90 Stradale", brand: "Ferrari", category: "Supercar",
-    price: "$524,814", priceNum: 524814, engine: "4.0L V8 Hybrid", horsepower: 986,
-    topSpeed: "211 mph", acceleration: "2.5s 0-60",
-    image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80",
-    description: "Ferrari's most powerful road car ever, featuring a plug-in hybrid powertrain with three electric motors."
-  },
-  {
-    id: 4, name: "McLaren 750S", brand: "McLaren", category: "Supercar",
-    price: "$324,000", priceNum: 324000, engine: "4.0L V8 Twin-Turbo", horsepower: 740,
-    topSpeed: "206 mph", acceleration: "2.7s 0-60",
-    image: "https://images.unsplash.com/photo-1611659536022-9896671439d8?w=800&q=80",
-    description: "The lightest and most powerful McLaren series production car, delivering pure driver engagement."
-  },
-  {
-    id: 5, name: "Porsche 911 GT3 RS", brand: "Porsche", category: "Supercar",
-    price: "$241,300", priceNum: 241300, engine: "4.0L Flat-6", horsepower: 518,
-    topSpeed: "184 mph", acceleration: "3.0s 0-60",
-    image: "https://images.unsplash.com/photo-1503376763036-066120622c74?w=800&q=80",
-    description: "A track-focused masterpiece derived from Porsche's motorsport DNA, featuring extreme aerodynamics."
-  },
-  {
-    id: 6, name: "Koenigsegg Jesko", brand: "Koenigsegg", category: "Hypercar",
-    price: "$3,000,000", priceNum: 3000000, engine: "5.0L V8 Twin-Turbo", horsepower: 1600,
-    topSpeed: "300+ mph", acceleration: "2.5s 0-60",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
-    description: "Swedish engineering at its finest, designed to be the fastest production car ever made."
-  },
-  {
-    id: 7, name: "Pagani Utopia", brand: "Pagani", category: "Hypercar",
-    price: "$2,190,000", priceNum: 2190000, engine: "6.0L V12 Twin-Turbo", horsepower: 852,
-    topSpeed: "220 mph", acceleration: "2.9s 0-60",
-    image: "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=800&q=80",
-    description: "Horacio Pagani's third masterpiece, blending art and science in perfect harmony."
-  },
-  {
-    id: 8, name: "Rolls-Royce Spectre", brand: "Rolls-Royce", category: "Luxury",
-    price: "$422,750", priceNum: 422750, engine: "Dual Electric Motors", horsepower: 577,
-    topSpeed: "155 mph", acceleration: "4.4s 0-60",
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=80",
-    description: "Rolls-Royce's first fully electric car, delivering silent, effortless luxury."
-  },
-  {
-    id: 9, name: "Bentley Flying Spur", brand: "Bentley", category: "Luxury",
-    price: "$208,000", priceNum: 208000, engine: "4.0L V8 Twin-Turbo", horsepower: 542,
-    topSpeed: "198 mph", acceleration: "4.0s 0-60",
-    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80",
-    description: "The ultimate luxury sedan combining handcrafted British elegance with breathtaking performance."
-  },
-  {
-    id: 10, name: "Mercedes-Maybach S680", brand: "Mercedes-Benz", category: "Luxury",
-    price: "$234,300", priceNum: 234300, engine: "6.0L V12 Biturbo", horsepower: 621,
-    topSpeed: "130 mph", acceleration: "4.4s 0-60",
-    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
-    description: "The pinnacle of Mercedes-Benz luxury, offering first-class rear-seat comfort and V12 power."
-  },
-  {
-    id: 11, name: "BMW 7 Series", brand: "BMW", category: "Luxury",
-    price: "$96,400", priceNum: 96400, engine: "3.0L Inline-6 Hybrid", horsepower: 536,
-    topSpeed: "155 mph", acceleration: "4.5s 0-60",
-    image: "https://images.unsplash.com/photo-1556189250-72ba95452da9?w=800&q=80",
-    description: "BMW's flagship luxury sedan with cutting-edge technology and executive comfort."
-  },
-  {
-    id: 12, name: "Audi A8 L", brand: "Audi", category: "Luxury",
-    price: "$89,495", priceNum: 89495, engine: "3.0L V6 Turbo Hybrid", horsepower: 453,
-    topSpeed: "155 mph", acceleration: "4.9s 0-60",
-    image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&q=80",
-    description: "The sophisticated long-wheelbase flagship with Audi's legendary quattro all-wheel drive."
-  },
-  {
-    id: 13, name: "Lamborghini Urus Performante", brand: "Lamborghini", category: "SUV",
-    price: "$260,676", priceNum: 260676, engine: "4.0L V8 Twin-Turbo", horsepower: 657,
-    topSpeed: "190 mph", acceleration: "3.3s 0-60",
-    image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=800&q=80",
-    description: "The super SUV taken to extremes, with track-derived performance and aggressive styling."
-  },
-  {
-    id: 14, name: "Range Rover SV", brand: "Land Rover", category: "SUV",
-    price: "$215,000", priceNum: 215000, engine: "4.4L V8 Twin-Turbo", horsepower: 606,
-    topSpeed: "165 mph", acceleration: "4.4s 0-60",
-    image: "https://images.unsplash.com/photo-1566008885218-90abf9200ddb?w=800&q=80",
-    description: "The most luxurious and capable Range Rover ever, handcrafted by Special Vehicle Operations."
-  },
-  {
-    id: 15, name: "BMW XM", brand: "BMW", category: "SUV",
-    price: "$159,000", priceNum: 159000, engine: "4.4L V8 Hybrid", horsepower: 644,
-    topSpeed: "168 mph", acceleration: "4.1s 0-60",
-    image: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=800&q=80",
-    description: "BMW M's first standalone model since the M1, a plug-in hybrid performance SUV."
-  },
-  {
-    id: 16, name: "Mercedes-AMG G63", brand: "Mercedes-Benz", category: "SUV",
-    price: "$183,000", priceNum: 183000, engine: "4.0L V8 Biturbo", horsepower: 577,
-    topSpeed: "137 mph", acceleration: "4.4s 0-60",
-    image: "https://images.unsplash.com/photo-1520031441872-265e4ff70366?w=800&q=80",
-    description: "The iconic boxy off-roader with AMG power, combining luxury with legendary capability."
-  },
-  {
-    id: 17, name: "Porsche Cayenne Turbo GT", brand: "Porsche", category: "SUV",
-    price: "$196,300", priceNum: 196300, engine: "4.0L V8 Twin-Turbo", horsepower: 631,
-    topSpeed: "186 mph", acceleration: "3.1s 0-60",
-    image: "https://images.unsplash.com/photo-1503376763036-066120622c74?w=800&q=80",
-    description: "The fastest production SUV around the Nürburgring, with sports car DNA."
-  },
-  {
-    id: 18, name: "Tesla Model S Plaid", brand: "Tesla", category: "Electric",
-    price: "$108,490", priceNum: 108490, engine: "Tri-Motor Electric", horsepower: 1020,
-    topSpeed: "200 mph", acceleration: "1.99s 0-60",
-    image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=800&q=80",
-    description: "The quickest production sedan ever made, with over 1000 horsepower and 400+ mile range."
-  },
-  {
-    id: 19, name: "Rimac Nevera", brand: "Rimac", category: "Electric",
-    price: "$2,400,000", priceNum: 2400000, engine: "Quad-Motor Electric", horsepower: 1813,
-    topSpeed: "258 mph", acceleration: "1.74s 0-60",
-    image: "https://images.unsplash.com/photo-1617788138017-80abf9200ddb?w=800&q=80",
-    description: "The world's fastest accelerating production car, Croatian electric hypercar excellence."
-  },
-  {
-    id: 20, name: "Lucid Air Sapphire", brand: "Lucid", category: "Electric",
-    price: "$249,000", priceNum: 249000, engine: "Tri-Motor Electric", horsepower: 1234,
-    topSpeed: "205 mph", acceleration: "1.89s 0-60",
-    image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80",
-    description: "The world's most powerful sedan, delivering luxury and hypercar performance."
-  },
-  {
-    id: 21, name: "Porsche Taycan Turbo S", brand: "Porsche", category: "Electric",
-    price: "$196,350", priceNum: 196350, engine: "Dual-Motor Electric", horsepower: 750,
-    topSpeed: "162 mph", acceleration: "2.6s 0-60",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80",
-    description: "Porsche's revolutionary electric sports car with 800-volt architecture."
-  },
-  {
-    id: 22, name: "BMW iX M60", brand: "BMW", category: "Electric",
-    price: "$111,500", priceNum: 111500, engine: "Dual-Motor Electric", horsepower: 610,
-    topSpeed: "155 mph", acceleration: "3.6s 0-60",
-    image: "https://images.unsplash.com/photo-1655217417533-3d4400508c9d?w=800&q=80",
-    description: "BMW's flagship electric SUV with M performance and futuristic design language."
-  },
-  {
-    id: 23, name: "Chevrolet Corvette Z06", brand: "Chevrolet", category: "Sports",
-    price: "$109,695", priceNum: 109695, engine: "5.5L V8 Flat-Plane", horsepower: 670,
-    topSpeed: "195 mph", acceleration: "2.6s 0-60",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&q=80",
-    description: "America's supercar with a Ferrari-inspired flat-plane crank V8 engine."
-  },
-  {
-    id: 24, name: "Ford Mustang Dark Horse", brand: "Ford", category: "Sports",
-    price: "$59,270", priceNum: 59270, engine: "5.0L V8", horsepower: 500,
-    topSpeed: "163 mph", acceleration: "4.1s 0-60",
-    image: "https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?w=800&q=80",
-    description: "The most powerful naturally aspirated 5.0L Mustang ever built for track dominance."
-  },
-  {
-    id: 25, name: "Toyota GR Supra 3.0", brand: "Toyota", category: "Sports",
-    price: "$58,550", priceNum: 58550, engine: "3.0L Inline-6 Turbo", horsepower: 382,
-    topSpeed: "155 mph", acceleration: "3.9s 0-60",
-    image: "https://images.unsplash.com/photo-1626668893632-6f3d4466d22f?w=800&q=80",
-    description: "The legendary Supra nameplate revived with BMW engineering and Toyota tuning."
-  },
-  {
-    id: 26, name: "Nissan GT-R NISMO", brand: "Nissan", category: "Sports",
-    price: "$220,990", priceNum: 220990, engine: "3.8L V6 Twin-Turbo", horsepower: 600,
-    topSpeed: "205 mph", acceleration: "2.5s 0-60",
-    image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=800&q=80",
-    description: "Godzilla in its most ferocious form, with racing-derived carbon fiber components."
-  },
-  {
-    id: 27, name: "Aston Martin Vantage", brand: "Aston Martin", category: "Sports",
-    price: "$146,986", priceNum: 146986, engine: "4.0L V8 Twin-Turbo", horsepower: 503,
-    topSpeed: "195 mph", acceleration: "3.5s 0-60",
-    image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800&q=80",
-    description: "A British icon with a perfect balance of beauty, brawn, and handling precision."
-  },
-  {
-    id: 28, name: "Lexus LFA", brand: "Lexus", category: "Exotic",
-    price: "$375,000", priceNum: 375000, engine: "4.8L V10", horsepower: 552,
-    topSpeed: "202 mph", acceleration: "3.6s 0-60",
-    image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80",
-    description: "A masterpiece of Japanese engineering with the greatest V10 soundtrack ever."
-  },
-  {
-    id: 29, name: "Honda NSX Type S", brand: "Honda", category: "Exotic",
-    price: "$171,500", priceNum: 171500, engine: "3.5L V6 Hybrid", horsepower: 600,
-    topSpeed: "191 mph", acceleration: "2.9s 0-60",
-    image: "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=800&q=80",
-    description: "The final evolution of the second-generation NSX with enhanced hybrid performance."
-  },
-  {
-    id: 30, name: "Maserati MC20", brand: "Maserati", category: "Exotic",
-    price: "$216,995", priceNum: 216995, engine: "3.0L V6 Twin-Turbo", horsepower: 621,
-    topSpeed: "202 mph", acceleration: "2.9s 0-60",
-    image: "https://images.unsplash.com/photo-1617788138017-80abf9200ddb?w=800&q=80",
-    description: "Maserati's return to supercar greatness with an all-new carbon fiber chassis."
-  }
+  // ====== HYPERCARS (10) ======
+  { id: 1, name: "Bugatti Chiron Super Sport", brand: "Bugatti", category: "Hypercar", price: "$3,825,000", priceNum: 3825000, engine: "8.0L W16 Quad-Turbo", horsepower: 1578, topSpeed: "273 mph", acceleration: "2.4s 0-60", image: "/images/bugatti.jpg", description: "The ultimate expression of automotive excellence, featuring a quad-turbocharged W16 engine delivering breathtaking performance." },
+  { id: 2, name: "Koenigsegg Jesko Attack", brand: "Koenigsegg", category: "Hypercar", price: "$3,000,000", priceNum: 3000000, engine: "5.0L V8 Twin-Turbo", horsepower: 1600, topSpeed: "300+ mph", acceleration: "2.5s 0-60", image: "/images/bugatti.jpg", description: "Swedish engineering at its finest, designed to be the fastest production car ever made." },
+  { id: 3, name: "Pagani Utopia", brand: "Pagani", category: "Hypercar", price: "$2,190,000", priceNum: 2190000, engine: "6.0L V12 Twin-Turbo", horsepower: 852, topSpeed: "220 mph", acceleration: "2.9s 0-60", image: "/images/lamborghini.jpg", description: "Horacio Pagani's third masterpiece, blending art and science in perfect harmony." },
+  { id: 4, name: "Rimac Nevera", brand: "Rimac", category: "Hypercar", price: "$2,400,000", priceNum: 2400000, engine: "Quad-Motor Electric", horsepower: 1813, topSpeed: "258 mph", acceleration: "1.74s 0-60", image: "/images/bugatti.jpg", description: "The world's fastest accelerating production car, Croatian electric hypercar excellence." },
+  { id: 5, name: "Hennessey Venom F5", brand: "Hennessey", category: "Hypercar", price: "$3,000,000", priceNum: 3000000, engine: "6.6L V8 Twin-Turbo", horsepower: 1817, topSpeed: "311 mph", acceleration: "2.6s 0-60", image: "/images/mclaren.jpg", description: "American hypercar built for one purpose: to break the 300 mph barrier." },
+  { id: 6, name: "Aston Martin Valkyrie", brand: "Aston Martin", category: "Hypercar", price: "$3,500,000", priceNum: 3500000, engine: "6.5L V12 Hybrid", horsepower: 1160, topSpeed: "220 mph", acceleration: "2.5s 0-60", image: "/images/astonmartin.jpg", description: "A Formula 1 car for the road, developed with Red Bull Racing expertise." },
+  { id: 7, name: "SSC Tuatara", brand: "SSC", category: "Hypercar", price: "$2,500,000", priceNum: 2500000, engine: "5.9L V8 Twin-Turbo", horsepower: 1750, topSpeed: "295 mph", acceleration: "2.5s 0-60", image: "/images/ferrari.jpg", description: "American-made speed demon with a claimed top speed challenging world records." },
+  { id: 8, name: "Gordon Murray T.50", brand: "Gordon Murray", category: "Hypercar", price: "$3,080,000", priceNum: 3080000, engine: "4.0L V12", horsepower: 654, topSpeed: "226 mph", acceleration: "2.8s 0-60", image: "/images/mclaren.jpg", description: "A superlight hypercar with a fan-assisted ground effect system and screaming V12." },
+  { id: 9, name: "De Tomaso P72", brand: "De Tomaso", category: "Hypercar", price: "$890,000", priceNum: 890000, engine: "5.0L V8 Supercharged", horsepower: 700, topSpeed: "220 mph", acceleration: "3.0s 0-60", image: "/images/ferrari.jpg", description: "A retro-futuristic Italian hypercar inspired by 1960s Le Mans prototypes." },
+  { id: 10, name: "Lotus Evija", brand: "Lotus", category: "Hypercar", price: "$2,300,000", priceNum: 2300000, engine: "Quad-Motor Electric", horsepower: 1972, topSpeed: "217 mph", acceleration: "2.7s 0-60", image: "/images/tesla.jpg", description: "The most powerful production car ever made, British electric hypercar excellence." },
+
+  // ====== SUPERCARS (15) ======
+  { id: 11, name: "Lamborghini Revuelto", brand: "Lamborghini", category: "Supercar", price: "$608,358", priceNum: 608358, engine: "6.5L V12 Hybrid", horsepower: 1001, topSpeed: "217 mph", acceleration: "2.5s 0-60", image: "/images/lamborghini.jpg", description: "Lamborghini's first V12 hybrid supercar, combining raw V12 power with electric motors." },
+  { id: 12, name: "Ferrari SF90 Stradale", brand: "Ferrari", category: "Supercar", price: "$524,814", priceNum: 524814, engine: "4.0L V8 Hybrid", horsepower: 986, topSpeed: "211 mph", acceleration: "2.5s 0-60", image: "/images/ferrari.jpg", description: "Ferrari's most powerful road car ever, featuring a plug-in hybrid powertrain." },
+  { id: 13, name: "McLaren 750S", brand: "McLaren", category: "Supercar", price: "$324,000", priceNum: 324000, engine: "4.0L V8 Twin-Turbo", horsepower: 740, topSpeed: "206 mph", acceleration: "2.7s 0-60", image: "/images/mclaren.jpg", description: "The lightest and most powerful McLaren series production car." },
+  { id: 14, name: "Porsche 911 GT3 RS", brand: "Porsche", category: "Supercar", price: "$241,300", priceNum: 241300, engine: "4.0L Flat-6", horsepower: 518, topSpeed: "184 mph", acceleration: "3.0s 0-60", image: "/images/porsche.jpg", description: "A track-focused masterpiece derived from Porsche's motorsport DNA." },
+  { id: 15, name: "Chevrolet Corvette Z06", brand: "Chevrolet", category: "Supercar", price: "$109,695", priceNum: 109695, engine: "5.5L V8 Flat-Plane", horsepower: 670, topSpeed: "195 mph", acceleration: "2.6s 0-60", image: "/images/corvette.jpg", description: "America's supercar with a Ferrari-inspired flat-plane crank V8 engine." },
+  { id: 16, name: "Mercedes-AMG GT Black Series", brand: "Mercedes-Benz", category: "Supercar", price: "$325,000", priceNum: 325000, engine: "4.0L V8 Twin-Turbo", horsepower: 720, topSpeed: "202 mph", acceleration: "3.1s 0-60", image: "/images/mercedes.jpg", description: "The most powerful AMG V8 ever, with active aero from GT3 racing." },
+  { id: 17, name: "Audi R8 V10 Performance", brand: "Audi", category: "Supercar", price: "$158,600", priceNum: 158600, engine: "5.2L V10", horsepower: 602, topSpeed: "205 mph", acceleration: "3.1s 0-60", image: "/images/audi.jpg", description: "The final iteration of Audi's legendary naturally aspirated V10 supercar." },
+  { id: 18, name: "Nissan GT-R NISMO", brand: "Nissan", category: "Supercar", price: "$220,990", priceNum: 220990, engine: "3.8L V6 Twin-Turbo", horsepower: 600, topSpeed: "205 mph", acceleration: "2.5s 0-60", image: "/images/gtr.jpg", description: "Godzilla in its most ferocious form, with racing-derived carbon fiber." },
+  { id: 19, name: "Aston Martin Vantage", brand: "Aston Martin", category: "Supercar", price: "$146,986", priceNum: 146986, engine: "4.0L V8 Twin-Turbo", horsepower: 503, topSpeed: "195 mph", acceleration: "3.5s 0-60", image: "/images/astonmartin.jpg", description: "A British icon with a perfect balance of beauty, brawn, and handling." },
+  { id: 20, name: "Lexus LFA", brand: "Lexus", category: "Supercar", price: "$375,000", priceNum: 375000, engine: "4.8L V10", horsepower: 552, topSpeed: "202 mph", acceleration: "3.6s 0-60", image: "/images/lexus.jpg", description: "A masterpiece of Japanese engineering with the greatest V10 soundtrack ever." },
+  { id: 21, name: "Honda NSX Type S", brand: "Honda", category: "Supercar", price: "$171,500", priceNum: 171500, engine: "3.5L V6 Hybrid", horsepower: 600, topSpeed: "191 mph", acceleration: "2.9s 0-60", image: "/images/honda.jpg", description: "The final evolution of the second-generation NSX with enhanced hybrid performance." },
+  { id: 22, name: "Maserati MC20", brand: "Maserati", category: "Supercar", price: "$216,995", priceNum: 216995, engine: "3.0L V6 Twin-Turbo", horsepower: 621, topSpeed: "202 mph", acceleration: "2.9s 0-60", image: "/images/maserati.jpg", description: "Maserati's return to supercar greatness with an all-new carbon fiber chassis." },
+  { id: 23, name: "Jaguar F-Type R", brand: "Jaguar", category: "Supercar", price: "$103,200", priceNum: 103200, engine: "5.0L V8 Supercharged", horsepower: 575, topSpeed: "186 mph", acceleration: "3.5s 0-60", image: "/images/astonmartin.jpg", description: "A British sports car with a supercharged V8 roar and timeless design." },
+  { id: 24, name: "BMW M8 Competition", brand: "BMW", category: "Supercar", price: "$130,000", priceNum: 130000, engine: "4.4L V8 Twin-Turbo", horsepower: 617, topSpeed: "190 mph", acceleration: "3.0s 0-60", image: "/images/bmw.jpg", description: "BMW's flagship grand tourer with M Division performance credentials." },
+  { id: 25, name: "Alfa Romeo Giulia GTAm", brand: "Alfa Romeo", category: "Supercar", price: "$200,000", priceNum: 200000, engine: "2.9L V6 Twin-Turbo", horsepower: 540, topSpeed: "196 mph", acceleration: "3.6s 0-60", image: "/images/ferrari.jpg", description: "An Italian four-door super-sedan with racing pedigree and wild aerodynamics." },
+
+  // ====== LUXURY (12) ======
+  { id: 26, name: "Rolls-Royce Spectre", brand: "Rolls-Royce", category: "Luxury", price: "$422,750", priceNum: 422750, engine: "Dual Electric Motors", horsepower: 577, topSpeed: "155 mph", acceleration: "4.4s 0-60", image: "/images/rollsroyce.jpg", description: "Rolls-Royce's first fully electric car, delivering silent, effortless luxury." },
+  { id: 27, name: "Bentley Flying Spur", brand: "Bentley", category: "Luxury", price: "$208,000", priceNum: 208000, engine: "4.0L V8 Twin-Turbo", horsepower: 542, topSpeed: "198 mph", acceleration: "4.0s 0-60", image: "/images/bentley.jpg", description: "The ultimate luxury sedan combining handcrafted British elegance with performance." },
+  { id: 28, name: "Mercedes-Maybach S680", brand: "Mercedes-Benz", category: "Luxury", price: "$234,300", priceNum: 234300, engine: "6.0L V12 Biturbo", horsepower: 621, topSpeed: "130 mph", acceleration: "4.4s 0-60", image: "/images/mercedes.jpg", description: "The pinnacle of Mercedes-Benz luxury, offering first-class rear-seat comfort." },
+  { id: 29, name: "BMW 7 Series", brand: "BMW", category: "Luxury", price: "$96,400", priceNum: 96400, engine: "3.0L Inline-6 Hybrid", horsepower: 536, topSpeed: "155 mph", acceleration: "4.5s 0-60", image: "/images/bmw.jpg", description: "BMW's flagship luxury sedan with cutting-edge technology and executive comfort." },
+  { id: 30, name: "Audi A8 L", brand: "Audi", category: "Luxury", price: "$89,495", priceNum: 89495, engine: "3.0L V6 Turbo Hybrid", horsepower: 453, topSpeed: "155 mph", acceleration: "4.9s 0-60", image: "/images/audi.jpg", description: "The sophisticated long-wheelbase flagship with Audi's legendary quattro." },
+  { id: 31, name: "Genesis G90", brand: "Genesis", category: "Luxury", price: "$89,200", priceNum: 89200, engine: "3.5L V6 Twin-Turbo", horsepower: 409, topSpeed: "155 mph", acceleration: "5.0s 0-60", image: "/images/bentley.jpg", description: "Korean luxury redefined with first-class rear seats and serene quietness." },
+  { id: 32, name: "Lexus LS 500", brand: "Lexus", category: "Luxury", price: "$77,000", priceNum: 77000, engine: "3.5L V6 Twin-Turbo", horsepower: 416, topSpeed: "136 mph", acceleration: "4.6s 0-60", image: "/images/lexus.jpg", description: "Japanese craftsmanship meets luxury with meticulous attention to detail." },
+  { id: 33, name: "Cadillac Celestiq", brand: "Cadillac", category: "Luxury", price: "$340,000", priceNum: 340000, engine: "Dual-Motor Electric", horsepower: 600, topSpeed: "155 mph", acceleration: "3.8s 0-60", image: "/images/tesla.jpg", description: "Cadillac's hand-built electric flagship with unlimited personalization." },
+  { id: 34, name: "Lucid Air Sapphire", brand: "Lucid", category: "Luxury", price: "$249,000", priceNum: 249000, engine: "Tri-Motor Electric", horsepower: 1234, topSpeed: "205 mph", acceleration: "1.89s 0-60", image: "/images/tesla.jpg", description: "The world's most powerful sedan, delivering luxury and hypercar performance." },
+  { id: 35, name: "Porsche Panamera Turbo S", brand: "Porsche", category: "Luxury", price: "$188,400", priceNum: 188400, engine: "4.0L V8 Twin-Turbo", horsepower: 620, topSpeed: "196 mph", acceleration: "3.0s 0-60", image: "/images/porsche.jpg", description: "The ultimate sports sedan combining Porsche DNA with four-door practicality." },
+  { id: 36, name: "Maserati Quattroporte Trofeo", brand: "Maserati", category: "Luxury", price: "$152,000", priceNum: 152000, engine: "3.8L V8 Twin-Turbo", horsepower: 580, topSpeed: "203 mph", acceleration: "4.5s 0-60", image: "/images/maserati.jpg", description: "An Italian luxury sedan with Ferrari-derived V8 power and unmistakable sound." },
+  { id: 37, name: "Jaguar XJ", brand: "Jaguar", category: "Luxury", price: "$76,000", priceNum: 76000, engine: "5.0L V8 Supercharged", horsepower: 470, topSpeed: "155 mph", acceleration: "4.9s 0-60", image: "/images/astonmartin.jpg", description: "A British luxury saloon with aluminum construction and sporting heritage." },
+
+  // ====== SUV (12) ======
+  { id: 38, name: "Lamborghini Urus Performante", brand: "Lamborghini", category: "SUV", price: "$260,676", priceNum: 260676, engine: "4.0L V8 Twin-Turbo", horsepower: 657, topSpeed: "190 mph", acceleration: "3.3s 0-60", image: "/images/lamborghini.jpg", description: "The super SUV taken to extremes, with track-derived performance." },
+  { id: 39, name: "Range Rover SV", brand: "Land Rover", category: "SUV", price: "$215,000", priceNum: 215000, engine: "4.4L V8 Twin-Turbo", horsepower: 606, topSpeed: "165 mph", acceleration: "4.4s 0-60", image: "/images/range_rover.jpg", description: "The most luxurious and capable Range Rover ever, handcrafted by SV Operations." },
+  { id: 40, name: "BMW XM", brand: "BMW", category: "SUV", price: "$159,000", priceNum: 159000, engine: "4.4L V8 Hybrid", horsepower: 644, topSpeed: "168 mph", acceleration: "4.1s 0-60", image: "/images/bmw.jpg", description: "BMW M's first standalone model since the M1, a plug-in hybrid performance SUV." },
+  { id: 41, name: "Mercedes-AMG G63", brand: "Mercedes-Benz", category: "SUV", price: "$183,000", priceNum: 183000, engine: "4.0L V8 Biturbo", horsepower: 577, topSpeed: "137 mph", acceleration: "4.4s 0-60", image: "/images/mercedes.jpg", description: "The iconic boxy off-roader with AMG power and legendary capability." },
+  { id: 42, name: "Porsche Cayenne Turbo GT", brand: "Porsche", category: "SUV", price: "$196,300", priceNum: 196300, engine: "4.0L V8 Twin-Turbo", horsepower: 631, topSpeed: "186 mph", acceleration: "3.1s 0-60", image: "/images/porsche.jpg", description: "The fastest production SUV around the Nürburgring, with sports car DNA." },
+  { id: 43, name: "Aston Martin DBX707", brand: "Aston Martin", category: "SUV", price: "$239,086", priceNum: 239086, engine: "4.0L V8 Twin-Turbo", horsepower: 697, topSpeed: "193 mph", acceleration: "3.1s 0-60", image: "/images/astonmartin.jpg", description: "The world's most powerful luxury SUV with Aston Martin elegance." },
+  { id: 44, name: "Maserati Grecale Trofeo", brand: "Maserati", category: "SUV", price: "$105,000", priceNum: 105000, engine: "3.0L V6 Twin-Turbo", horsepower: 523, topSpeed: "177 mph", acceleration: "3.6s 0-60", image: "/images/maserati.jpg", description: "Maserati's compact SUV with supercar-baiting performance." },
+  { id: 45, name: "Alfa Romeo Stelvio Quadrifoglio", brand: "Alfa Romeo", category: "SUV", price: "$86,000", priceNum: 86000, engine: "2.9L V6 Twin-Turbo", horsepower: 505, topSpeed: "176 mph", acceleration: "3.6s 0-60", image: "/images/ferrari.jpg", description: "An Italian SUV that holds the Nürburgring SUV lap record." },
+  { id: 46, name: "Jeep Grand Wagoneer", brand: "Jeep", category: "SUV", price: "$88,000", priceNum: 88000, engine: "6.4L V8", horsepower: 471, topSpeed: "130 mph", acceleration: "6.0s 0-60", image: "/images/range_rover.jpg", description: "American luxury SUV with three rows of first-class comfort." },
+  { id: 47, name: "Cadillac Escalade-V", brand: "Cadillac", category: "SUV", price: "$149,990", priceNum: 149990, engine: "6.2L V8 Supercharged", horsepower: 682, topSpeed: "124 mph", acceleration: "4.4s 0-60", image: "/images/corvette.jpg", description: "The most powerful full-size SUV ever made, with supercharged V8 muscle." },
+  { id: 48, name: "Dodge Durango SRT Hellcat", brand: "Dodge", category: "SUV", price: "$95,000", priceNum: 95000, engine: "6.2L V8 Supercharged", horsepower: 710, topSpeed: "180 mph", acceleration: "3.5s 0-60", image: "/images/mustang.jpg", description: "A three-row family SUV with Hellcat power and attitude." },
+  { id: 49, name: "Volvo XC90 T8", brand: "Volvo", category: "SUV", price: "$71,900", priceNum: 71900, engine: "2.0L Inline-4 Hybrid", horsepower: 455, topSpeed: "112 mph", acceleration: "5.3s 0-60", image: "/images/range_rover.jpg", description: "Swedish luxury SUV prioritizing safety, design, and family comfort." },
+
+  // ====== ELECTRIC (10) ======
+  { id: 50, name: "Tesla Model S Plaid", brand: "Tesla", category: "Electric", price: "$108,490", priceNum: 108490, engine: "Tri-Motor Electric", horsepower: 1020, topSpeed: "200 mph", acceleration: "1.99s 0-60", image: "/images/tesla.jpg", description: "The quickest production sedan ever made, with over 1000 horsepower." },
+  { id: 51, name: "Porsche Taycan Turbo S", brand: "Porsche", category: "Electric", price: "$196,350", priceNum: 196350, engine: "Dual-Motor Electric", horsepower: 750, topSpeed: "162 mph", acceleration: "2.6s 0-60", image: "/images/porsche.jpg", description: "Porsche's revolutionary electric sports car with 800-volt architecture." },
+  { id: 52, name: "BMW iX M60", brand: "BMW", category: "Electric", price: "$111,500", priceNum: 111500, engine: "Dual-Motor Electric", horsepower: 610, topSpeed: "155 mph", acceleration: "3.6s 0-60", image: "/images/bmw.jpg", description: "BMW's flagship electric SUV with M performance and futuristic design." },
+  { id: 53, name: "Mercedes EQS 53 AMG", brand: "Mercedes-Benz", category: "Electric", price: "$147,500", priceNum: 147500, engine: "Dual-Motor Electric", horsepower: 649, topSpeed: "137 mph", acceleration: "3.4s 0-60", image: "/images/mercedes.jpg", description: "Mercedes' electric flagship with a stunning hyperscreen interior." },
+  { id: 54, name: "Audi e-tron GT RS", brand: "Audi", category: "Electric", price: "$143,900", priceNum: 143900, engine: "Dual-Motor Electric", horsepower: 637, topSpeed: "155 mph", acceleration: "3.1s 0-60", image: "/images/audi.jpg", description: "Audi's electric grand tourer sharing DNA with the Porsche Taycan." },
+  { id: 55, name: "Fisker Ocean Extreme", brand: "Fisker", category: "Electric", price: "$68,999", priceNum: 68999, engine: "Dual-Motor Electric", horsepower: 550, topSpeed: "124 mph", acceleration: "3.6s 0-60", image: "/images/tesla.jpg", description: "A sustainable electric SUV with a solar roof and vegan interior." },
+  { id: 56, name: "Polestar 3", brand: "Polestar", category: "Electric", price: "$84,000", priceNum: 84000, engine: "Dual-Motor Electric", horsepower: 517, topSpeed: "130 mph", acceleration: "4.7s 0-60", image: "/images/bmw.jpg", description: "Swedish electric performance SUV with Scandinavian minimalist design." },
+  { id: 57, name: "Hyundai Ioniq 5 N", brand: "Hyundai", category: "Electric", price: "$66,100", priceNum: 66100, engine: "Dual-Motor Electric", horsepower: 641, topSpeed: "162 mph", acceleration: "3.4s 0-60", image: "/images/honda.jpg", description: "The first true performance EV hot hatch with fake engine sounds." },
+  { id: 58, name: "Kia EV6 GT", brand: "Kia", category: "Electric", price: "$61,600", priceNum: 61600, engine: "Dual-Motor Electric", horsepower: 576, topSpeed: "161 mph", acceleration: "3.4s 0-60", image: "/images/honda.jpg", description: "A shockingly fast Korean electric crossover with supercar acceleration." },
+  { id: 59, name: "Rivian R1S", brand: "Rivian", category: "Electric", price: "$78,000", priceNum: 78000, engine: "Quad-Motor Electric", horsepower: 835, topSpeed: "125 mph", acceleration: "3.0s 0-60", image: "/images/range_rover.jpg", description: "An American electric adventure SUV with genuine off-road capability." },
+
+  // ====== SPORTS (15) ======
+  { id: 60, name: "Ford Mustang Dark Horse", brand: "Ford", category: "Sports", price: "$59,270", priceNum: 59270, engine: "5.0L V8", horsepower: 500, topSpeed: "163 mph", acceleration: "4.1s 0-60", image: "/images/mustang.jpg", description: "The most powerful naturally aspirated 5.0L Mustang ever built." },
+  { id: 61, name: "Toyota GR Supra 3.0", brand: "Toyota", category: "Sports", price: "$58,550", priceNum: 58550, engine: "3.0L Inline-6 Turbo", horsepower: 382, topSpeed: "155 mph", acceleration: "3.9s 0-60", image: "/images/supra.jpg", description: "The legendary Supra nameplate revived with BMW engineering." },
+  { id: 62, name: "BMW M2 Competition", brand: "BMW", category: "Sports", price: "$63,200", priceNum: 63200, engine: "3.0L Inline-6 Twin-Turbo", horsepower: 453, topSpeed: "177 mph", acceleration: "3.9s 0-60", image: "/images/bmw.jpg", description: "BMW's compact rear-drive sports coupe, pure driving pleasure." },
+  { id: 63, name: "Porsche 718 Cayman GTS", brand: "Porsche", category: "Sports", price: "$90,000", priceNum: 90000, engine: "4.0L Flat-6", horsepower: 394, topSpeed: "182 mph", acceleration: "4.3s 0-60", image: "/images/porsche.jpg", description: "The best-handling sports car under $100k with a naturally aspirated flat-6." },
+  { id: 64, name: "Mazda MX-5 Miata", brand: "Mazda", category: "Sports", price: "$28,050", priceNum: 28050, engine: "2.0L Inline-4", horsepower: 181, topSpeed: "137 mph", acceleration: "6.5s 0-60", image: "/images/supra.jpg", description: "The world's best-selling roadster, delivering pure driving joy." },
+  { id: 65, name: "Subaru BRZ tS", brand: "Subaru", category: "Sports", price: "$36,000", priceNum: 36000, engine: "2.4L Flat-4", horsepower: 228, topSpeed: "140 mph", acceleration: "6.1s 0-60", image: "/images/supra.jpg", description: "A lightweight rear-drive coupe co-developed with Toyota GR86." },
+  { id: 66, name: "Nissan Z NISMO", brand: "Nissan", category: "Sports", price: "$66,890", priceNum: 66890, engine: "3.0L V6 Twin-Turbo", horsepower: 420, topSpeed: "155 mph", acceleration: "4.1s 0-60", image: "/images/gtr.jpg", description: "A modern interpretation of the iconic Z car with turbocharged power." },
+  { id: 67, name: "Lexus RC F", brand: "Lexus", category: "Sports", price: "$68,000", priceNum: 68000, engine: "5.0L V8", horsepower: 472, topSpeed: "168 mph", acceleration: "4.2s 0-60", image: "/images/lexus.jpg", description: "A naturally aspirated V8 sports coupe with Japanese reliability." },
+  { id: 68, name: "Mercedes-AMG C63 S", brand: "Mercedes-Benz", category: "Sports", price: "$85,000", priceNum: 85000, engine: "2.0L Inline-4 Hybrid", horsepower: 671, topSpeed: "174 mph", acceleration: "3.3s 0-60", image: "/images/mercedes.jpg", description: "AMG's controversial four-cylinder hybrid with more power than ever." },
+  { id: 69, name: "Audi TT RS", brand: "Audi", category: "Sports", price: "$73,000", priceNum: 73000, engine: "2.5L Inline-5 Turbo", horsepower: 394, topSpeed: "155 mph", acceleration: "3.6s 0-60", image: "/images/audi.jpg", description: "Audi's iconic sports coupe with a unique five-cylinder engine note." },
+  { id: 70, name: "Lotus Emira", brand: "Lotus", category: "Sports", price: "$77,100", priceNum: 77100, engine: "3.5L V6 Supercharged", horsepower: 400, topSpeed: "180 mph", acceleration: "4.3s 0-60", image: "/images/mclaren.jpg", description: "The last internal combustion Lotus, lightweight and driver-focused." },
+  { id: 71, name: "Chevrolet Camaro ZL1", brand: "Chevrolet", category: "Sports", price: "$66,000", priceNum: 66000, engine: "6.2L V8 Supercharged", horsepower: 650, topSpeed: "198 mph", acceleration: "3.5s 0-60", image: "/images/corvette.jpg", description: "A 650-horsepower American muscle car that corners like a sports car." },
+  { id: 72, name: "Dodge Challenger SRT Hellcat", brand: "Dodge", category: "Sports", price: "$72,000", priceNum: 72000, engine: "6.2L V8 Supercharged", horsepower: 717, topSpeed: "196 mph", acceleration: "3.5s 0-60", image: "/images/mustang.jpg", description: "The original 700+ horsepower muscle car with old-school charm." },
+  { id: 73, name: "Acura NSX", brand: "Acura", category: "Sports", price: "$171,500", priceNum: 171500, engine: "3.5L V6 Hybrid", horsepower: 573, topSpeed: "191 mph", acceleration: "2.9s 0-60", image: "/images/honda.jpg", description: "Honda's hybrid supercar with everyday usability and track capability." },
+  { id: 74, name: "Infiniti Q60 Red Sport", brand: "Infiniti", category: "Sports", price: "$58,000", priceNum: 58000, engine: "3.0L V6 Twin-Turbo", horsepower: 400, topSpeed: "155 mph", acceleration: "5.0s 0-60", image: "/images/gtr.jpg", description: "A stylish luxury sports coupe with twin-turbo V6 power." },
+
+  // ====== EXOTIC (8) ======
+  { id: 75, name: "Ferrari 296 GTB", brand: "Ferrari", category: "Exotic", price: "$338,255", priceNum: 338255, engine: "3.0L V6 Hybrid", horsepower: 819, topSpeed: "205 mph", acceleration: "2.9s 0-60", image: "/images/ferrari.jpg", description: "Ferrari's revolutionary V6 plug-in hybrid with 819 horsepower." },
+  { id: 76, name: "Lamborghini Huracan Sterrato", brand: "Lamborghini", category: "Exotic", price: "$278,972", priceNum: 278972, engine: "5.2L V10", horsepower: 602, topSpeed: "162 mph", acceleration: "3.4s 0-60", image: "/images/lamborghini.jpg", description: "The world's first off-road supercar with rally-inspired design." },
+  { id: 77, name: "McLaren Artura", brand: "McLaren", category: "Exotic", price: "$237,500", priceNum: 237500, engine: "3.0L V6 Hybrid", horsepower: 671, topSpeed: "205 mph", acceleration: "3.0s 0-60", image: "/images/mclaren.jpg", description: "McLaren's first series-production hybrid with a new carbon architecture." },
+  { id: 78, name: "Porsche 718 Spyder RS", brand: "Porsche", category: "Exotic", price: "$162,350", priceNum: 162350, engine: "4.0L Flat-6", horsepower: 493, topSpeed: "191 mph", acceleration: "3.2s 0-60", image: "/images/porsche.jpg", description: "The ultimate naturally aspirated mid-engine Porsche roadster." },
+  { id: 79, name: "Aston Martin DB12", brand: "Aston Martin", category: "Exotic", price: "$245,000", priceNum: 245000, engine: "4.0L V8 Twin-Turbo", horsepower: 671, topSpeed: "202 mph", acceleration: "3.5s 0-60", image: "/images/astonmartin.jpg", description: "The world's first super tourer, replacing the legendary DB11." },
+  { id: 80, name: "Bentley Continental GT Speed", brand: "Bentley", category: "Exotic", price: "$280,000", priceNum: 280000, engine: "6.0L W12 Twin-Turbo", horsepower: 650, topSpeed: "208 mph", acceleration: "3.5s 0-60", image: "/images/bentley.jpg", description: "The ultimate grand tourer with W12 power and handcrafted luxury." },
+  { id: 81, name: "Rolls-Royce Phantom", brand: "Rolls-Royce", category: "Exotic", price: "$460,000", priceNum: 460000, engine: "6.75L V12 Twin-Turbo", horsepower: 563, topSpeed: "155 mph", acceleration: "5.1s 0-60", image: "/images/rollsroyce.jpg", description: "The pinnacle of automotive luxury, hand-built to customer specification." },
+  { id: 82, name: "Mercedes-AMG SL 63", brand: "Mercedes-Benz", category: "Exotic", price: "$183,000", priceNum: 183000, engine: "4.0L V8 Twin-Turbo", horsepower: 577, topSpeed: "196 mph", acceleration: "3.5s 0-60", image: "/images/mercedes.jpg", description: "The return of the iconic SL roadster with AMG-developed performance." },
+
+  // ====== BUDGET/AFFORDABLE (8) ======
+  { id: 83, name: "Honda Civic Type R", brand: "Honda", category: "Sports", price: "$43,990", priceNum: 43990, engine: "2.0L Inline-4 Turbo", horsepower: 315, topSpeed: "169 mph", acceleration: "5.0s 0-60", image: "/images/honda.jpg", description: "The ultimate front-wheel-drive hot hatch with track-proven performance." },
+  { id: 84, name: "Volkswagen Golf R", brand: "Volkswagen", category: "Sports", price: "$46,890", priceNum: 46890, engine: "2.0L Inline-4 Turbo", horsepower: 315, topSpeed: "155 mph", acceleration: "4.7s 0-60", image: "/images/audi.jpg", description: "The understated all-wheel-drive hot hatch with everyday practicality." },
+  { id: 85, name: "Hyundai Elantra N", brand: "Hyundai", category: "Sports", price: "$32,900", priceNum: 32900, engine: "2.0L Inline-4 Turbo", horsepower: 276, topSpeed: "155 mph", acceleration: "5.0s 0-60", image: "/images/honda.jpg", description: "A budget performance sedan that punches way above its weight." },
+  { id: 86, name: "Toyota GR Corolla", brand: "Toyota", category: "Sports", price: "$36,000", priceNum: 36000, engine: "1.6L Inline-3 Turbo", horsepower: 300, topSpeed: "143 mph", acceleration: "5.0s 0-60", image: "/images/supra.jpg", description: "A rally-inspired hot hatch with all-wheel drive and a unique three-cylinder." },
+  { id: 87, name: "Subaru WRX STI", brand: "Subaru", category: "Sports", price: "$41,000", priceNum: 41000, engine: "2.4L Flat-4 Turbo", horsepower: 271, topSpeed: "144 mph", acceleration: "5.5s 0-60", image: "/images/supra.jpg", description: "The legendary rally-bred sedan with symmetrical all-wheel drive." },
+  { id: 88, name: "Ford Bronco Raptor", brand: "Ford", category: "SUV", price: "$90,000", priceNum: 90000, engine: "3.0L V6 Twin-Turbo", horsepower: 418, topSpeed: "111 mph", acceleration: "5.6s 0-60", image: "/images/mustang.jpg", description: "An off-road beast combining Bronco capability with Raptor suspension." },
+  { id: 89, name: "Jeep Wrangler 392", brand: "Jeep", category: "SUV", price: "$82,000", priceNum: 82000, engine: "6.4L V8", horsepower: 470, topSpeed: "112 mph", acceleration: "4.5s 0-60", image: "/images/range_rover.jpg", description: "The first Wrangler with a V8 engine, delivering brutal off-road power." },
+  { id: 90, name: "Toyota Land Cruiser", brand: "Toyota", category: "SUV", price: "$57,000", priceNum: 57000, engine: "2.4L Inline-4 Hybrid", horsepower: 326, topSpeed: "109 mph", acceleration: "7.0s 0-60", image: "/images/range_rover.jpg", description: "The legendary off-roader returns as a more compact, efficient hybrid." }
 ];
 
 export const categories = ["All", "Hypercar", "Supercar", "Luxury", "SUV", "Electric", "Sports", "Exotic"];
