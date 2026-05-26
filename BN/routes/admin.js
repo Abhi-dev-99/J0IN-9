@@ -1,22 +1,8 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
+const { requireAuth } = require('../middleware/auth');
 const prisma = require('../lib/prisma');
 
 const router = express.Router();
-
-const requireAuth = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ message: 'No token' });
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-    const user = await prisma.user.findUnique({ where: { id: decoded.userId }, select: { id: true } });
-    if (!user) return res.status(401).json({ message: 'Invalid token' });
-    req.user = user;
-    next();
-  } catch (err) {
-    res.status(401).json({ message: 'Auth failed' });
-  }
-};
 
 router.get('/stats', requireAuth, async (req, res) => {
   try {

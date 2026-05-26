@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { cars, categories } from '../data/cars'
+import { cars as localCars, categories } from '../data/cars'
+import { fetchCars } from '../services/api'
 
 function CarCard({ car, index }) {
   const [hovered, setHovered] = useState(false)
@@ -52,18 +53,45 @@ export default function Cars() {
   const [sortBy, setSortBy] = useState('name')
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [carsData, setCarsData] = useState(localCars)
+  const [loading, setLoading] = useState(true)
+  const [dbConnected, setDbConnected] = useState(false)
   const searchRef = useRef(null)
   const suggestionsRef = useRef(null)
+
+  // Fetch cars from MongoDB on mount
+  useEffect(() => {
+    async function loadCars() {
+      try {
+        setLoading(true)
+        const cars = await fetchCars()
+        if (cars && cars.length > 0) {
+          setCarsData(cars)
+          setDbConnected(true)
+        } else {
+          setCarsData(localCars)
+          setDbConnected(false)
+        }
+      } catch (err) {
+        console.log('API unavailable, using local data:', err.message)
+        setCarsData(localCars)
+        setDbConnected(false)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadCars()
+  }, [])
 
   // Build suggestion list based on search query
   const suggestions = useMemo(() => {
     if (!searchQuery.trim()) return []
     const query = searchQuery.toLowerCase()
-    return cars.filter(car =>
+    return carsData.filter(car =>
       car.name.toLowerCase().includes(query) ||
       car.brand.toLowerCase().includes(query)
     ).slice(0, 8)
-  }, [searchQuery])
+  }, [searchQuery, carsData])
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -115,7 +143,7 @@ export default function Cars() {
   }
 
   const filteredCars = useMemo(() => {
-    let result = cars.filter(car => {
+    let result = carsData.filter(car => {
       const matchesCategory = activeCategory === 'All' || car.category === activeCategory
       const matchesSearch = car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         car.brand.toLowerCase().includes(searchQuery.toLowerCase())
@@ -133,7 +161,7 @@ export default function Cars() {
     }
 
     return result
-  }, [activeCategory, searchQuery, sortBy])
+  }, [carsData, activeCategory, searchQuery, sortBy])
 
   return (
     <div className="cars-page">
@@ -146,7 +174,7 @@ export default function Cars() {
           </p>
           <div className="hero-stats-bar">
             <div className="hero-stat">
-              <span className="hero-stat-num">{cars.length}</span>
+              <span className="hero-stat-num">{carsData.length}</span>
               <span className="hero-stat-label">Cars Listed</span>
             </div>
             <div className="hero-stat">
@@ -158,6 +186,12 @@ export default function Cars() {
               <span className="hero-stat-label">Brands</span>
             </div>
           </div>
+          {dbConnected && (
+            <div className="db-status">
+              <span className="db-dot"></span>
+              Connected to MongoDB
+            </div>
+          )}
         </div>
       </div>
 
@@ -220,14 +254,24 @@ export default function Cars() {
         ))}
       </div>
 
-      {/* Car Grid */}
-      <div className="cars-grid">
-        {filteredCars.map((car, i) => (
-          <CarCard key={car.id} car={car} index={i} />
-        ))}
-      </div>
+      {/* Loading */}
+      {loading && (
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading cars from database...</p>
+        </div>
+      )}
 
-      {filteredCars.length === 0 && (
+      {/* Car Grid */}
+      {!loading && (
+        <div className="cars-grid">
+          {filteredCars.map((car, i) => (
+            <CarCard key={car.id || car._id} car={car} index={i} />
+          ))}
+        </div>
+      )}
+
+      {!loading && filteredCars.length === 0 && (
         <div className="no-results">
           <h3>No cars found</h3>
           <p>Try adjusting your search or filters</p>

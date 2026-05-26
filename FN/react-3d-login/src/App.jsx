@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Cars from './pages/Cars'
 import Scene from './Scene'
@@ -7,7 +7,12 @@ import './App.css'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       {/* 3D Canvas Background */}
       <div className="canvas-container">
         <Canvas
@@ -22,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/cars" element={<Cars />} />
+        <Route path="*" element={<Navigate to="/cars" replace />} />
       </Routes>
     </BrowserRouter>
   )

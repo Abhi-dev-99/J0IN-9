@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { API_BASE_URL } from '../config'
-
-const API_URL = `${API_BASE_URL}/admin`
+import { useAuth } from '../context/AuthContext'
+import { fetchDashboardStats, fetchDashboardUsers, fetchDashboardCars } from '../services/api'
 
 function StatCard({ title, value, icon, color }) {
   return (
@@ -18,58 +17,43 @@ function StatCard({ title, value, icon, color }) {
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const { signOut } = useAuth()
   const [stats, setStats] = useState(null)
   const [users, setUsers] = useState([])
   const [cars, setCars] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
-  const token = localStorage.getItem('token')
 
   useEffect(() => {
-    if (!token) {
-      navigate('/')
-      return
-    }
     fetchDashboardData()
-  }, [token, navigate])
+  }, [])
 
   async function fetchDashboardData() {
     try {
       setLoading(true)
-      const headers = { Authorization: `Bearer ${token}` }
-
-      const [statsRes, usersRes, carsRes] = await Promise.all([
-        fetch(`${API_URL}/stats`, { headers }),
-        fetch(`${API_URL}/users`, { headers }),
-        fetch(`${API_URL}/cars`, { headers })
+      const [statsData, usersData, carsData] = await Promise.all([
+        fetchDashboardStats(),
+        fetchDashboardUsers(),
+        fetchDashboardCars()
       ])
-
-      if (!statsRes.ok || !usersRes.ok || !carsRes.ok) {
-        if (statsRes.status === 401) {
-          localStorage.removeItem('token')
-          navigate('/')
-          return
-        }
-        throw new Error('Failed to fetch dashboard data')
-      }
-
-      const statsData = await statsRes.json()
-      const usersData = await usersRes.json()
-      const carsData = await carsRes.json()
 
       setStats(statsData)
       setUsers(usersData.users)
       setCars(carsData.cars)
     } catch (err) {
+      if (err.message?.includes('401') || err.message?.includes('Unauthorized')) {
+        navigate('/')
+        return
+      }
       setError(err.message)
     } finally {
       setLoading(false)
     }
   }
 
-  function handleLogout() {
-    localStorage.removeItem('token')
+  async function handleLogout() {
+    await signOut()
     navigate('/')
   }
 
