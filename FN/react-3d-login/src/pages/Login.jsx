@@ -132,9 +132,9 @@ export default function Login() {
           )}
         </div>
 
-        {!isSignUp && import.meta.env.DEV && (
+        {!isSignUp && (
           <div className="demo-creds">
-            <p>Demo Accounts (Dev Only):</p>
+            <p>Demo Accounts:</p>
             <code>demo@automobiles.com / password123</code>
             <code>alice@automobiles.com / password123</code>
           </div>
