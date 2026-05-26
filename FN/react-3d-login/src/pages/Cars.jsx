@@ -1,16 +1,8 @@
-import { useState, useMemo, useEffect } from 'react'
-import { API_BASE_URL } from '../config'
-
-const CARS_API = `${API_BASE_URL}/cars`
-
-function getCarImageUrl(car) {
-  const keyword = encodeURIComponent(car.brand)
-  return `https://loremflickr.com/800/500/${keyword}?lock=${car.id}`
-}
+import { useState, useMemo, useRef, useEffect } from 'react'
+import { cars, categories } from '../data/cars'
 
 function CarCard({ car, index }) {
   const [hovered, setHovered] = useState(false)
-  const imgSrc = getCarImageUrl(car)
 
   return (
     <div
@@ -20,7 +12,7 @@ function CarCard({ car, index }) {
       onMouseLeave={() => setHovered(false)}
     >
       <div className={`car-image-wrapper ${hovered ? 'hovered' : ''}`}>
-        <img src={imgSrc} alt={car.name} loading="lazy" />
+        <img src={car.image} alt={car.name} loading="lazy" />
         <div className="car-image-overlay" />
         <div className="car-price-badge">{car.price}</div>
       </div>
@@ -58,39 +50,89 @@ export default function Cars() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('name')
-  const [cars, setCars] = useState([])
-  const [categories, setCategories] = useState(['All'])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const searchRef = useRef(null)
+  const suggestionsRef = useRef(null)
 
+  // Build suggestion list based on search query
+  const suggestions = useMemo(() => {
+    if (!searchQuery.trim()) return []
+    const query = searchQuery.toLowerCase()
+    return cars.filter(car =>
+      car.name.toLowerCase().includes(query) ||
+      car.brand.toLowerCase().includes(query)
+    ).slice(0, 8)
+  }, [searchQuery])
+
+  // Close suggestions when clicking outside
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true)
-        const params = new URLSearchParams()
-        if (activeCategory !== 'All') params.append('category', activeCategory)
-        if (searchQuery) params.append('search', searchQuery)
-        if (sortBy) params.append('sortBy', sortBy)
-
-        const [carsRes, catsRes] = await Promise.all([
-          fetch(`${CARS_API}?${params.toString()}`),
-          fetch(`${CARS_API}/categories`)
-        ])
-
-        const carsData = await carsRes.json()
-        const catsData = await catsRes.json()
-
-        if (carsRes.ok) setCars(carsData.cars)
-        if (catsRes.ok) setCategories(catsData.categories)
-        setError('')
-      } catch (err) {
-        setError('Failed to load cars from server')
-      } finally {
-        setLoading(false)
+    function handleClickOutside(e) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(e.target) &&
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(e.target)
+      ) {
+        setShowSuggestions(false)
       }
     }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
-    fetchData()
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+    setShowSuggestions(true)
+    setHighlightedIndex(-1)
+  }
+
+  const handleSuggestionClick = (carName) => {
+    setSearchQuery(carName)
+    setShowSuggestions(false)
+    setHighlightedIndex(-1)
+  }
+
+  const handleKeyDown = (e) => {
+    if (!showSuggestions || suggestions.length === 0) return
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setHighlightedIndex(prev => (prev + 1) % suggestions.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setHighlightedIndex(prev => (prev - 1 + suggestions.length) % suggestions.length)
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
+        handleSuggestionClick(suggestions[highlightedIndex].name)
+      } else {
+        setShowSuggestions(false)
+      }
+    } else if (e.key === 'Escape') {
+      setShowSuggestions(false)
+    }
+  }
+
+  const filteredCars = useMemo(() => {
+    let result = cars.filter(car => {
+      const matchesCategory = activeCategory === 'All' || car.category === activeCategory
+      const matchesSearch = car.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        car.brand.toLowerCase().includes(searchQuery.toLowerCase())
+      return matchesCategory && matchesSearch
+    })
+
+    if (sortBy === 'price-asc') {
+      result = [...result].sort((a, b) => a.priceNum - b.priceNum)
+    } else if (sortBy === 'price-desc') {
+      result = [...result].sort((a, b) => b.priceNum - a.priceNum)
+    } else if (sortBy === 'hp') {
+      result = [...result].sort((a, b) => b.horsepower - a.horsepower)
+    } else {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name))
+    }
+
+    return result
   }, [activeCategory, searchQuery, sortBy])
 
   return (
@@ -108,7 +150,7 @@ export default function Cars() {
               <span className="hero-stat-label">Cars Listed</span>
             </div>
             <div className="hero-stat">
-              <span className="hero-stat-num">{Math.max(0, categories.length - 1)}</span>
+              <span className="hero-stat-num">{categories.length - 1}</span>
               <span className="hero-stat-label">Categories</span>
             </div>
             <div className="hero-stat">
@@ -121,7 +163,7 @@ export default function Cars() {
 
       {/* Controls */}
       <div className="cars-controls">
-        <div className="search-box">
+        <div className="search-box" ref={searchRef}>
           <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
@@ -130,8 +172,29 @@ export default function Cars() {
             type="text"
             placeholder="Search cars by name or brand..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
+            onFocus={() => setShowSuggestions(true)}
+            onKeyDown={handleKeyDown}
           />
+          {/* Auto-suggestions dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <div className="suggestions-dropdown" ref={suggestionsRef}>
+              {suggestions.map((car, idx) => (
+                <div
+                  key={car.id}
+                  className={`suggestion-item ${idx === highlightedIndex ? 'highlighted' : ''}`}
+                  onClick={() => handleSuggestionClick(car.name)}
+                  onMouseEnter={() => setHighlightedIndex(idx)}
+                >
+                  <img src={car.image} alt="" className="suggestion-thumb" />
+                  <div className="suggestion-info">
+                    <span className="suggestion-name">{car.name}</span>
+                    <span className="suggestion-meta">{car.brand} · {car.category} · {car.price}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="sort-dropdown">
@@ -157,20 +220,14 @@ export default function Cars() {
         ))}
       </div>
 
-      {/* Loading / Error */}
-      {loading && <div className="loading-message">Loading cars...</div>}
-      {error && <div className="error-message">{error}</div>}
-
       {/* Car Grid */}
-      {!loading && !error && (
-        <div className="cars-grid">
-          {cars.map((car, i) => (
-            <CarCard key={car.id || car._id} car={car} index={i} />
-          ))}
-        </div>
-      )}
+      <div className="cars-grid">
+        {filteredCars.map((car, i) => (
+          <CarCard key={car.id} car={car} index={i} />
+        ))}
+      </div>
 
-      {!loading && !error && cars.length === 0 && (
+      {filteredCars.length === 0 && (
         <div className="no-results">
           <h3>No cars found</h3>
           <p>Try adjusting your search or filters</p>
