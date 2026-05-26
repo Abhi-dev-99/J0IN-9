@@ -1,117 +1,70 @@
 const express = require('express');
-const supabase = require('../lib/supabase');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const prisma = require('../lib/prisma');
 
 const router = express.Router();
 
-// Register
+const generateToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET || 'your-secret-key', { expiresIn: '7d' });
+};
+
 router.post('/register', async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
+    if (password.length < 6) return res.status(400).json({ message: 'Password min 6 chars' });
 
-    // Validation
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
-    }
+    const existing = await prisma.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+    if (existing) return res.status(400).json({ message: 'User already exists' });
 
-    if (password.length < 6) {
-      return res.status(400).json({ message: 'Password must be at least 6 characters' });
-    }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
 
-    // Create user in Supabase Auth
-    const { data, error } = await supabase.auth.admin.createUser({
-      email: email.toLowerCase().trim(),
-      password,
-      email_confirm: true
+    const user = await prisma.user.create({
+      data: { email: email.toLowerCase().trim(), password: hash }
     });
 
-    if (error) {
-      console.error('Supabase register error:', error);
-      return res.status(400).json({ message: error.message || 'Registration failed' });
-    }
-
-    // Sign in to get token
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.toLowerCase().trim(),
-      password
-    });
-
-    if (signInError) {
-      console.error('Supabase signin error:', signInError);
-      return res.status(400).json({ message: signInError.message || 'Sign in failed after registration' });
-    }
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      token: signInData.session.access_token,
-      user: {
-        id: data.user.id,
-        email: data.user.email
-      }
-    });
+    const token = generateToken(user.id);
+    res.status(201).json({ message: 'Registered', token, user: { id: user.id, email: user.email } });
   } catch (err) {
-    console.error('Register error:', err);
-    res.status(500).json({ message: 'Server error during registration' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
 
-    // Validation
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
-    }
+    const user = await prisma.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Sign in with Supabase Auth
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.toLowerCase().trim(),
-      password
-    });
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(400).json({ message: 'Invalid credentials' });
 
-    if (error) {
-      console.error('Supabase login error:', error);
-      return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    res.json({
-      message: 'Login successful',
-      token: data.session.access_token,
-      user: {
-        id: data.user.id,
-        email: data.user.email
-      }
-    });
+    const token = generateToken(user.id);
+    res.json({ message: 'Login successful', token, user: { id: user.id, email: user.email } });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ message: 'Server error during login' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get current user (protected)
 router.get('/me', async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
+    if (!token) return res.status(401).json({ message: 'No token' });
 
-    // Verify token with Supabase
-    const { data, error } = await supabase.auth.getUser(token);
-    
-    if (error || !data.user) {
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-
-    res.json({
-      user: {
-        id: data.user.id,
-        email: data.user.email
-      }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.userId },
+      select: { id: true, email: true, createdAt: true, updatedAt: true }
     });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ user });
   } catch (err) {
-    console.error('Me error:', err);
     res.status(401).json({ message: 'Invalid token' });
   }
 });

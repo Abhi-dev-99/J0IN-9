@@ -1,69 +1,53 @@
 const express = require('express');
-const Car = require('../models/Car');
+const prisma = require('../lib/prisma');
 
 const router = express.Router();
 
-// Get all cars
 router.get('/', async (req, res) => {
   try {
     const { category, search, sortBy } = req.query;
-    let query = {};
-    let sort = {};
+    let where = {};
+    let orderBy = {};
 
-    // Filter by category
-    if (category && category !== 'All') {
-      query.category = category;
-    }
-
-    // Search by name or brand
+    if (category && category !== 'All') where.category = category;
     if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { brand: { $regex: search, $options: 'i' } }
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { brand: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    // Sorting
-    if (sortBy === 'price-asc') {
-      sort = { priceNum: 1 };
-    } else if (sortBy === 'price-desc') {
-      sort = { priceNum: -1 };
-    } else if (sortBy === 'hp') {
-      sort = { horsepower: -1 };
-    } else {
-      sort = { name: 1 };
-    }
+    if (sortBy === 'price-asc') orderBy = { priceNum: 'asc' };
+    else if (sortBy === 'price-desc') orderBy = { priceNum: 'desc' };
+    else if (sortBy === 'hp') orderBy = { horsepower: 'desc' };
+    else orderBy = { name: 'asc' };
 
-    const cars = await Car.find(query).sort(sort);
+    const cars = await prisma.car.findMany({ where, orderBy });
     res.json({ cars });
   } catch (err) {
-    console.error('Get cars error:', err);
-    res.status(500).json({ message: 'Server error fetching cars' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get all categories
 router.get('/categories', async (req, res) => {
   try {
-    const categories = await Car.distinct('category');
-    res.json({ categories: ['All', ...categories] });
+    const cats = await prisma.car.findMany({ distinct: ['category'], select: { category: true } });
+    res.json({ categories: ['All', ...cats.map(c => c.category)] });
   } catch (err) {
-    console.error('Get categories error:', err);
-    res.status(500).json({ message: 'Server error fetching categories' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get single car by id
 router.get('/:id', async (req, res) => {
   try {
-    const car = await Car.findOne({ id: parseInt(req.params.id) });
-    if (!car) {
-      return res.status(404).json({ message: 'Car not found' });
-    }
+    const car = await prisma.car.findUnique({ where: { carId: parseInt(req.params.id) } });
+    if (!car) return res.status(404).json({ message: 'Not found' });
     res.json({ car });
   } catch (err) {
-    console.error('Get car error:', err);
-    res.status(500).json({ message: 'Server error fetching car' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

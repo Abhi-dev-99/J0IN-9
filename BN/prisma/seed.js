@@ -1,4 +1,5 @@
-const prisma = require('../lib/prisma');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 const carsData = [
   { carId: 1, name: "Bugatti Chiron Super Sport", brand: "Bugatti", category: "Hypercar", price: "$3,825,000", priceNum: 3825000, engine: "8.0L W16 Quad-Turbo", horsepower: 1578, topSpeed: "273 mph", acceleration: "2.4s 0-60", image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80", description: "The ultimate expression of automotive excellence, featuring a quad-turbocharged W16 engine delivering breathtaking performance." },
@@ -33,14 +34,16 @@ const carsData = [
   { carId: 30, name: "Maserati MC20", brand: "Maserati", category: "Exotic", price: "$216,995", priceNum: 216995, engine: "3.0L V6 Twin-Turbo", horsepower: 621, topSpeed: "202 mph", acceleration: "2.9s 0-60", image: "https://images.unsplash.com/photo-1617788138017-80abf9200ddb?w=800&q=80", description: "Maserati's return to supercar greatness with an all-new carbon fiber chassis." }
 ];
 
-async function seedCars() {
+async function main() {
   const count = await prisma.car.count();
   if (count === 0) {
     await prisma.car.createMany({ data: carsData });
     console.log('Seeded', carsData.length, 'cars');
   } else {
-    console.log('Cars already exist, skipping seed');
+    console.log('Cars already exist');
   }
 }
 
-module.exports = seedCars;
+main()
+  .catch(e => { console.error(e); process.exit(1); })
+  .finally(async () => { await prisma.$disconnect(); });

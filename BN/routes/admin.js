@@ -1,97 +1,62 @@
 const express = require('express');
-const supabase = require('../lib/supabase');
-const Car = require('../models/Car');
+const jwt = require('jsonwebtoken');
+const prisma = require('../lib/prisma');
 
 const router = express.Router();
 
-// Auth middleware
 const requireAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
-    }
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error || !data.user) {
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-    req.user = data.user;
+    if (!token) return res.status(401).json({ message: 'No token' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId }, select: { id: true } });
+    if (!user) return res.status(401).json({ message: 'Invalid token' });
+    req.user = user;
     next();
   } catch (err) {
     res.status(401).json({ message: 'Auth failed' });
   }
 };
 
-// Get dashboard stats
 router.get('/stats', requireAuth, async (req, res) => {
   try {
-    // Get users from Supabase
-    const { data: usersData, error: usersError } = await supabase.auth.admin.listUsers();
-    const totalUsers = usersError ? 0 : (usersData.users?.length || 0);
-
-    // Get cars from MongoDB
-    const totalCars = await Car.countDocuments();
-    const categories = await Car.distinct('category');
-    const categoryBreakdown = await Car.aggregate([
-      { $group: { _id: '$category', count: { $sum: 1 } } }
-    ]);
-
-    // Get most expensive car
-    const mostExpensive = await Car.findOne().sort({ priceNum: -1 }).select('name price');
-
-    // Get highest horsepower car
-    const mostPowerful = await Car.findOne().sort({ horsepower: -1 }).select('name horsepower');
+    const totalUsers = await prisma.user.count();
+    const totalCars = await prisma.car.count();
+    const cats = await prisma.car.findMany({ distinct: ['category'], select: { category: true } });
+    const breakdown = await prisma.car.groupBy({ by: ['category'], _count: { category: true } });
+    const mostExpensive = await prisma.car.findFirst({ orderBy: { priceNum: 'desc' }, select: { name: true, price: true } });
+    const mostPowerful = await prisma.car.findFirst({ orderBy: { horsepower: 'desc' }, select: { name: true, horsepower: true } });
 
     res.json({
       stats: {
-        totalUsers,
-        totalCars,
-        totalCategories: categories.length,
-        mostExpensive: mostExpensive ? { name: mostExpensive.name, price: mostExpensive.price } : null,
-        mostPowerful: mostPowerful ? { name: mostPowerful.name, horsepower: mostPowerful.horsepower } : null
+        totalUsers, totalCars, totalCategories: cats.length,
+        mostExpensive, mostPowerful
       },
-      categoryBreakdown: categoryBreakdown.map(c => ({
-        category: c._id,
-        count: c.count
-      }))
+      categoryBreakdown: breakdown.map(c => ({ category: c.category, count: c._count.category }))
     });
   } catch (err) {
-    console.error('Stats error:', err);
-    res.status(500).json({ message: 'Server error fetching stats' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get all users
 router.get('/users', requireAuth, async (req, res) => {
   try {
-    const { data, error } = await supabase.auth.admin.listUsers();
-    if (error) {
-      return res.status(400).json({ message: error.message });
-    }
-
-    const users = (data.users || []).map(u => ({
-      id: u.id,
-      email: u.email,
-      createdAt: u.created_at,
-      lastSignIn: u.last_sign_in_at,
-      confirmed: u.email_confirmed_at !== null
-    }));
-
-    res.json({ users });
+    const users = await prisma.user.findMany({ orderBy: { createdAt: 'desc' }, select: { id: true, email: true, createdAt: true, updatedAt: true } });
+    res.json({ users: users.map(u => ({ ...u, confirmed: true })) });
   } catch (err) {
-    console.error('Users error:', err);
-    res.status(500).json({ message: 'Server error fetching users' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Get all cars (admin view)
 router.get('/cars', requireAuth, async (req, res) => {
   try {
-    const cars = await Car.find().sort({ id: 1 });
+    const cars = await prisma.car.findMany({ orderBy: { carId: 'asc' } });
     res.json({ cars });
   } catch (err) {
-    console.error('Admin cars error:', err);
-    res.status(500).json({ message: 'Server error fetching cars' });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
