@@ -23,19 +23,29 @@ export function AuthProvider({ children }) {
   }, [])
 
   const signUp = async (email, password) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-    return { data, error }
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      })
+      if (error) return { data: null, error }
+      return { data, error: null }
+    } catch (err) {
+      return { data: null, error: { message: 'Network error. Check your Supabase URL in .env file.' } }
+    }
   }
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { data, error }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      if (error) return { data: null, error }
+      return { data, error: null }
+    } catch (err) {
+      return { data: null, error: { message: 'Network error. Check your Supabase URL in .env file.' } }
+    }
   }
 
   const signOut = async () => {
