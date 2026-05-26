@@ -1,3 +1,10 @@
+const WebSocket = require('ws');
+
+// Polyfill WebSocket for Node.js < 22 (required by Supabase Realtime)
+if (!global.WebSocket) {
+  global.WebSocket = WebSocket;
+}
+
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -6,10 +13,13 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 let supabase;
 
 if (supabaseUrl && supabaseServiceKey) {
-  supabase = createClient(supabaseUrl, supabaseServiceKey);
+  supabase = createClient(supabaseUrl, supabaseServiceKey, {
+    realtime: {
+      transport: WebSocket
+    }
+  });
 } else {
   console.warn('Warning: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set. Auth will not work.');
-  // Create a dummy client that throws on usage
   supabase = {
     auth: {
       admin: {
