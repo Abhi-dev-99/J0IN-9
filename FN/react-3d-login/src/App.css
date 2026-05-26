@@ -150,13 +150,21 @@ input[type="password"]:focus {
 }
 
 .auth-error {
-  background: rgba(244, 67, 54, 0.15);
-  color: #ef5350;
-  padding: 10px 14px;
-  border-radius: 10px;
+  background: rgba(244, 67, 54, 0.2);
+  color: #ffcdd2;
+  padding: 14px 18px;
+  border-radius: 12px;
   font-size: 13px;
   margin-bottom: 20px;
-  border: 1px solid rgba(244, 67, 54, 0.3);
+  border: 1px solid rgba(244, 67, 54, 0.5);
+  text-align: center;
+}
+
+.auth-error strong {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: #ef5350;
 }
 
 .auth-toggle {
@@ -205,6 +213,54 @@ input[type="password"]:focus {
   border-radius: 6px;
   margin-bottom: 6px;
   font-family: 'SF Mono', monospace;
+}
+
+.prod-notice {
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: linear-gradient(145deg, #1b5e20, #2e7d32);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.prod-notice p {
+  font-size: 11px;
+  color: #a5d6a7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Debug Console */
+.debug-console {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: linear-gradient(145deg, #050a1f, #0d1642);
+  border-radius: 10px;
+  border: 1px solid rgba(57, 73, 171, 0.3);
+  font-family: 'SF Mono', 'Courier New', monospace;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.debug-title {
+  font-size: 10px;
+  color: #5c6bc0;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.debug-line {
+  font-size: 11px;
+  color: #9fa8da;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.debug-line:last-child {
+  color: #c5cae9;
+  font-weight: 600;
 }
 
 /* ========== CARS PAGE ========== */
