@@ -95,6 +95,14 @@ export default function Login() {
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </button>
         </p>
+
+        {!isSignUp && (
+          <div className="demo-creds">
+            <p>Demo Accounts:</p>
+            <code>demo@automobiles.com / password123</code>
+            <code>alice@automobiles.com / password123</code>
+          </div>
+        )}
       </div>
     </div>
   )
