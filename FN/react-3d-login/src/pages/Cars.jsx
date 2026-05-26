@@ -1,4 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { cars as localCars, categories } from '../data/cars'
 import { fetchCars } from '../services/api'
 
@@ -48,6 +50,8 @@ function CarCard({ car, index }) {
 }
 
 export default function Cars() {
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('name')
@@ -142,6 +146,11 @@ export default function Cars() {
     }
   }
 
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/')
+  }
+
   const filteredCars = useMemo(() => {
     let result = carsData.filter(car => {
       const matchesCategory = activeCategory === 'All' || car.category === activeCategory
@@ -165,6 +174,11 @@ export default function Cars() {
 
   return (
     <div className="cars-page">
+      {/* Sign Out Button */}
+      <button className="signout-btn" onClick={handleSignOut}>
+        Sign Out ({user?.email?.split('@')[0] || 'User'})
+      </button>
+
       {/* Hero Section */}
       <div className="cars-hero">
         <div className="hero-content">

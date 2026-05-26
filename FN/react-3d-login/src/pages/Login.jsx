@@ -1,22 +1,58 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { signIn, signUp, user } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  // Redirect if already logged in
+  if (user) {
+    navigate('/cars', { replace: true })
+    return null
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (email.trim() && password.trim()) {
-      navigate('/cars')
+    setError('')
+    setLoading(true)
+
+    try {
+      let result
+      if (isSignUp) {
+        result = await signUp(email, password)
+      } else {
+        result = await signIn(email, password)
+      }
+
+      if (result.error) {
+        setError(result.error.message)
+      } else {
+        navigate('/cars')
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="overlay">
       <div className="login-box">
-        <h2>Welcome Back</h2>
+        <h2>{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
+        
+        {error && (
+          <div className="auth-error">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">Email</label>
@@ -38,12 +74,27 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
           </div>
-          <button className="enter-btn" type="submit">
-            Enter
+          <button className="enter-btn" type="submit" disabled={loading}>
+            {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Enter'}
           </button>
         </form>
+
+        <p className="auth-toggle">
+          {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+          <button
+            type="button"
+            className="auth-toggle-btn"
+            onClick={() => {
+              setIsSignUp(!isSignUp)
+              setError('')
+            }}
+          >
+            {isSignUp ? 'Sign In' : 'Sign Up'}
+          </button>
+        </p>
       </div>
     </div>
   )
